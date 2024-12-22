@@ -1,5 +1,5 @@
 from core import create_tables, insert_data
-from pars import pars_cite
+from pars import pars_site
 import subprocess
 import asyncio
 
@@ -8,7 +8,7 @@ async def main():
     await create_tables()
 
     for page in range(1, 32):
-        data = pars_cite(page)
+        data = pars_site(page)
         for product in data:
             await insert_data(product['name'],
                               product['link'],

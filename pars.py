@@ -9,7 +9,7 @@ base_url = 'https://m.sila.by/catalog/mobilnye_telefony/page/{}'
 ex_api = f'https://v6.exchangerate-api.com/v6/{settings.API_KEY}/latest/BYN'
 
 
-def pars_cite(page):
+def pars_site(page):
     # Find course
     response = requests.get(ex_api)
     exchange_rates_for_BYN = response.json()['conversion_rates']

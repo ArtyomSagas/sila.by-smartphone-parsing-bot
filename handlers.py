@@ -5,6 +5,8 @@ from answers import *
 import keyboards as kb
 import asyncio
 from datetime import datetime, timedelta
+from pars import pars_site
+from core import create_tables, insert_data
 
 router = Router()
 user_pages = {}
@@ -22,6 +24,23 @@ async def cleanup_inactive_users():
             user_pages.pop(user_id, None)
             user_last_interaction.pop(user_id, None)
         await asyncio.sleep(43200)
+
+
+async def update_data():
+    await create_tables()
+    for page in range(1, 32):
+        data = pars_site(page)
+        for product in data:
+            await insert_data(product['name'],
+                              product['link'],
+                              product['cur_price'],
+                              product['old_price'],
+                              product['sale'],
+                              product['cur_price_rub'],
+                              product['old_price_rub'],
+                              product['sale_rub']
+                              )
+    await asyncio.sleep(86400)
 
 
 @router.message(CommandStart())

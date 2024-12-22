@@ -1,37 +1,35 @@
-version: '3.9'
+version: "3.9"
 
 services:
-  bot:
+  app:
     build:
-      context: ./bot
+      context: .
       dockerfile: Dockerfile
-    container_name: bot_service
-    env_file:
-      - .env
+    container_name: parser_app
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+      - DB_NAME=${DB_NAME}
+      - BOT_TOKEN=${BOT_TOKEN}
+    volumes:
+      - .:/app
     depends_on:
       - db
-    networks:
-      - app_network
-    volumes:
-      - ./bot:/app
+    command: python main.py
 
   db:
-    build:
-      context: ./db
-      dockerfile: Dockerfile
-    container_name: db_service
-    env_file:
-      - .env
+    image: postgres:17
+    container_name: parser_db
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_DB: ${DB_NAME}
     ports:
       - "5432:5432"
-    networks:
-      - app_network
     volumes:
       - db_data:/var/lib/postgresql/data
-
-networks:
-  app_network:
-    driver: bridge
 
 volumes:
   db_data:

@@ -35,7 +35,7 @@ git clone https://github.com/ArtyomSagas/sila.by-smartphone-parsing-bot.git
 ```env
 DB_HOST=localhost
 DB_USER=postgres
-DB_PASS=ваш_пароль_от_БД
+DB_PASS=postgres
 DB_NAME=products
 DB_PORT=5432
 BOT_TOKEN=ваш_токен_бота
